@@ -37,6 +37,14 @@ class AbstractCommand(abc.ABC, Generic[CommandResultT]):
     @abc.abstractmethod
     def __call__(self, db: Database) -> CommandResultT: ...
 
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, AbstractCommand):
+            return NotImplemented
+        return self.args == other.args
+
+    def __hash__(self) -> int:
+        return hash(self.args)
+
 
 class SetValueForKeyCommand(AbstractCommand[None]):
     def __call__(self, db: Database):
