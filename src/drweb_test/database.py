@@ -18,7 +18,7 @@ class Database:
     def __getitem__(self, key: str):
         return self._key_value_dict[key]
 
-    def get(self, key: str, default: "typing._T" = None):
+    def get(self, key: str, default: "typing._T" = None):  # type: ignore
         return self._key_value_dict.get(key, default)
 
     def __setitem__(self, key: str, value: str):
