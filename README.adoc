@@ -2,9 +2,7 @@
 
 == Задание
 
-----
-include::docs/python-task.txt[]
-----
+link:docs/python-task.txt[]
 
 == Запуск программы
 
