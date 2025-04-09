@@ -5,7 +5,7 @@ description = "Default template for PDM package"
 authors = [{ name = "Иларион Ерченко", email = "turolretar@gmail.com" }]
 dependencies = []
 requires-python = ">=3.13"
-readme = "README.md"
+readme = "README.adoc"
 license = { text = "MIT" }
 
 [build-system]
