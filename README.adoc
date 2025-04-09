@@ -1,0 +1,7 @@
+= drweb-test
+
+== Задание
+
+----
+include::docs/python-task.txt[]
+----
