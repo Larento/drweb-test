@@ -4,7 +4,6 @@ from drweb_test.database import Database
 __all__ = (
     "parse_command_from_user_input",
     "get_repl_output",
-    "repl_loop",
 )
 
 
@@ -58,15 +57,3 @@ def get_repl_output(user_input: str, db: Database) -> str | None:
                 return ", ".join(result)
             case _ as result:
                 return str(result)
-
-
-def repl_loop(db: Database):
-    while True:
-        try:
-            user_input = input("> ")
-            if output := get_repl_output(user_input, db):
-                print(output)
-        except commands.CommandError as e:
-            print(e)
-        except (KeyboardInterrupt, EOFError, SystemExit):
-            break
