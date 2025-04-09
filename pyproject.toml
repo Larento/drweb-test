@@ -2,13 +2,11 @@
 name = "drweb-test"
 version = "0.1.0"
 description = "Default template for PDM package"
-authors = [
-    {name = "Иларион Ерченко", email = "turolretar@gmail.com"},
-]
+authors = [{ name = "Иларион Ерченко", email = "turolretar@gmail.com" }]
 dependencies = []
 requires-python = ">=3.13"
 readme = "README.md"
-license = {text = "MIT"}
+license = { text = "MIT" }
 
 [build-system]
 requires = ["pdm-backend"]
@@ -17,3 +15,7 @@ build-backend = "pdm.backend"
 
 [tool.pdm]
 distribution = true
+
+[tool.pdm.scripts]
+test.cmd = "python -m unittest discover tests -p '*.py'"
+test.env = { PYTHONPATH = "${PYTHONPATH}:${PDM_PROJECT_ROOT}/src" }
