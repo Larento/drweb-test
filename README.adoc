@@ -5,3 +5,14 @@
 ----
 include::docs/python-task.txt[]
 ----
+
+== Запуск программы
+
+WARNING: Для запуска необходим Python 3.13.
+
+[source, shell]
+----
+git clone https://github.com/Larento/drweb-test
+cd drweb-test/src
+python3 -m drweb_test
+----
