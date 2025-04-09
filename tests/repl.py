@@ -30,6 +30,24 @@ class TestParser(unittest.TestCase):
             parse_command_from_user_input("UNSET A"),
         )
 
+    def test_begin(self):
+        self.assertEqual(
+            parse_command_from_user_input("begin"),
+            parse_command_from_user_input("BEGIN"),
+        )
+
+    def test_rollback(self):
+        self.assertEqual(
+            parse_command_from_user_input("rollback"),
+            parse_command_from_user_input("ROLLBACK"),
+        )
+
+    def test_commit(self):
+        self.assertEqual(
+            parse_command_from_user_input("commit"),
+            parse_command_from_user_input("COMMIT"),
+        )
+
     def test_counts(self):
         self.assertEqual(
             parse_command_from_user_input("counts a"),
@@ -68,6 +86,9 @@ class TestReplOutput(unittest.TestCase):
         assert get_repl_output("", self.db) is None
         assert get_repl_output("unset a", self.db) is None
         assert get_repl_output("set a 10", self.db) is None
+        assert get_repl_output("begin", self.db) is None
+        assert get_repl_output("rollback", self.db) is None
+        assert get_repl_output("commit", self.db) is None
 
     def test_non_null_output(self):
         output = get_repl_output("get a", self.db)

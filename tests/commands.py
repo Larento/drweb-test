@@ -74,6 +74,15 @@ class TestCommands(unittest.TestCase):
         with self.assertRaises(commands.CommandError):
             commands.FindKeysWithValueCommand("a", "10")(self.db)
 
+        with self.assertRaises(commands.CommandError):
+            commands.BeginTransactionCommand("a")(self.db)
+
+        with self.assertRaises(commands.CommandError):
+            commands.RollbackTransactionCommand("a")(self.db)
+
+        with self.assertRaises(commands.CommandError):
+            commands.CommitTransactionCommand("a")(self.db)
+
     def test_empty_value_argument(self):
         with self.assertRaises(commands.CommandError):
             commands.SetValueForKeyCommand("a", "")(self.db)

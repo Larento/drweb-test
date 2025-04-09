@@ -19,6 +19,14 @@ def parse_command_from_user_input(user_input: str):
         case "unset" | "UNSET":
             return commands.UnsetValueForKeyCommand(*args)
 
+        # Транзакции
+        case "begin" | "BEGIN":
+            return commands.BeginTransactionCommand(*args)
+        case "rollback" | "ROLLBACK":
+            return commands.RollbackTransactionCommand(*args)
+        case "commit" | "COMMIT":
+            return commands.CommitTransactionCommand(*args)
+
         # Поиск данных
         case "counts" | "COUNTS":
             return commands.CountValueReferencesCommand(*args)

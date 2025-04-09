@@ -103,3 +103,27 @@ class FindKeysWithValueCommand(AbstractCommand[list[str]]):
             raise CommandError("Значение не может быть пустым.")
 
         return db.find_keys_with_value(value)
+
+
+class BeginTransactionCommand(AbstractCommand[None]):
+    def __call__(self, db: Database):
+        if len(self.args) > 0:
+            raise CommandError("Команда не ожидает аргументов.")
+
+        db.begin_transaction()
+
+
+class RollbackTransactionCommand(AbstractCommand[None]):
+    def __call__(self, db: Database):
+        if len(self.args) > 0:
+            raise CommandError("Команда не ожидает аргументов.")
+
+        db.rollback_transaction()
+
+
+class CommitTransactionCommand(AbstractCommand[None]):
+    def __call__(self, db: Database):
+        if len(self.args) > 0:
+            raise CommandError("Команда не ожидает аргументов.")
+
+        db.commit_transaction()
