@@ -87,8 +87,6 @@ class TestReplOutput(unittest.TestCase):
         assert get_repl_output("unset a", self.db) is None
         assert get_repl_output("set a 10", self.db) is None
         assert get_repl_output("begin", self.db) is None
-        assert get_repl_output("rollback", self.db) is None
-        assert get_repl_output("commit", self.db) is None
 
     def test_non_null_output(self):
         output = get_repl_output("get a", self.db)

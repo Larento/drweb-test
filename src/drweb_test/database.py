@@ -2,12 +2,18 @@ import copy
 import typing
 from collections import OrderedDict
 
-__all__ = ("Database",)
+__all__ = ("Database", "TransactionError")
 
 
 class DataStore(typing.NamedTuple):
     key_value_dict: dict[str, str]
     value_key_dict: dict[str, OrderedDict[str, None]]
+
+
+class TransactionError(Exception):
+    """
+    Ошибка, возникающая при выполнении операций, связанных с транзакциями.
+    """
 
 
 class Database:
@@ -70,7 +76,10 @@ class Database:
         try:
             self._store = self._transaction_stack.pop()
         except IndexError:
-            pass
+            raise TransactionError("Невозможно откатить транзакцию - нет открытых транзакций.")
 
     def commit_transaction(self):
-        self._transaction_stack.clear()
+        try:
+            self._transaction_stack.pop()
+        except IndexError:
+            raise TransactionError("Невозможно завершить транзакцию - нет открытых транзакций.")

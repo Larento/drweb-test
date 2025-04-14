@@ -1,6 +1,6 @@
 import unittest
 
-from drweb_test.database import Database
+from drweb_test.database import Database, TransactionError
 
 
 class TestDatabase(unittest.TestCase):
@@ -63,16 +63,16 @@ class TestDatabase(unittest.TestCase):
     def test_transaction_rollback_without_active_transaction(self):
         self.db.set("a", "10")
         self.db.set("a", "20")
-        self.db.rollback_transaction()
-        assert self.db.get("a") == "20"
+        with self.assertRaises(TransactionError):
+            self.db.rollback_transaction()
 
     def test_transaction_commit_without_active_transaction(self):
         self.db.set("a", "10")
         self.db.set("a", "20")
-        self.db.commit_transaction()
-        assert self.db.get("a") == "20"
+        with self.assertRaises(TransactionError):
+            self.db.commit_transaction()
 
-    def test_nested_transaction(self):
+    def test_nested_transaction_rollback_then_commit(self):
         self.db.begin_transaction()
         self.db.set("a", "10")
         self.db.set("b", "20")
@@ -94,6 +94,24 @@ class TestDatabase(unittest.TestCase):
         self.db.commit_transaction()
         assert self.db.get("a") == "20"
         assert self.db.get("b") is None
+
+    def test_nested_transaction_commit_then_rollback(self):
+        self.db.set("a", "10")
+
+        self.db.begin_transaction()
+        self.db.set("a", "20")
+
+        self.db.begin_transaction()
+        self.db.set("a", "30")
+
+        self.db.commit_transaction()
+        assert self.db.get("a") == "30"
+
+        self.db.rollback_transaction()
+        assert self.db.get("a") == "10"
+
+        with self.assertRaises(TransactionError):
+            self.db.rollback_transaction()
 
 
 if __name__ == "__main__":

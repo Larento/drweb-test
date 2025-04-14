@@ -1,7 +1,7 @@
 import abc
 from typing import Generic, TypeVar
 
-from drweb_test.database import Database
+from drweb_test.database import Database, TransactionError
 
 __all__ = (
     "NoValue",
@@ -118,7 +118,10 @@ class RollbackTransactionCommand(AbstractCommand[None]):
         if len(self.args) > 0:
             raise CommandError("Команда не ожидает аргументов.")
 
-        db.rollback_transaction()
+        try:
+            db.rollback_transaction()
+        except TransactionError as e:
+            raise CommandError(e)
 
 
 class CommitTransactionCommand(AbstractCommand[None]):
@@ -126,4 +129,7 @@ class CommitTransactionCommand(AbstractCommand[None]):
         if len(self.args) > 0:
             raise CommandError("Команда не ожидает аргументов.")
 
-        db.commit_transaction()
+        try:
+            db.commit_transaction()
+        except TransactionError as e:
+            raise CommandError(e)
