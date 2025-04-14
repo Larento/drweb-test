@@ -38,6 +38,12 @@ class TestDatabase(unittest.TestCase):
         self.db.unset("a")
         assert self.db.find_keys_with_value("10") == ["c", "b", "z"]
 
+    def test_find_after_reassignment(self):
+        self.db.set("a", "10")
+        assert self.db.find_keys_with_value("10") == ["a"]
+        self.db.set("a", "11")
+        assert self.db.find_keys_with_value("10") == []
+
     def test_transaction_rollback(self):
         self.db.set("a", "10")
         self.db.begin_transaction()

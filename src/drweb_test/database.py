@@ -28,9 +28,15 @@ class Database:
         return self._store.key_value_dict.get(key, default)
 
     def __setitem__(self, key: str, value: str):
+        try:
+            del self[key]
+        except KeyError:
+            pass
+
         self._store.key_value_dict[key] = value
         try:
-            self._store.value_key_dict.setdefault(value, OrderedDict())[key] = None
+            keys_with_value = self._store.value_key_dict.setdefault(value, OrderedDict())
+            keys_with_value[key] = None
         except KeyError:
             del self._store.key_value_dict[key]
 
@@ -41,7 +47,8 @@ class Database:
         value = self._store.key_value_dict[key]
         del self._store.key_value_dict[key]
         try:
-            del self._store.value_key_dict[value][key]
+            keys_with_value = self._store.value_key_dict[value]
+            del keys_with_value[key]
         except KeyError:
             self._store.key_value_dict[key] = value
 
